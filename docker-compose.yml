@@ -1,0 +1,22 @@
+---
+version: '3'
+
+services:
+  mockserver:
+    image: jamesdbloom/mockserver:latest
+    environment:
+      LOG_LEVEL: "WARN"
+
+  performance:
+    image: jamesdbloom/mockserver:wrk2
+    volumes:
+    - "./performance_test.sh:/performance_test.sh"
+    depends_on:
+    - mockserver
+    links:
+    - "mockserver"
+    environment:
+      MOCKSERVER_HOST: "mockserver:1080"
+    command:
+    - "/performance_test.sh"
+

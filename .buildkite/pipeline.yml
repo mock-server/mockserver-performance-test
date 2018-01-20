@@ -1,8 +1,13 @@
 steps:
-  - label: "update docker image"
+  - label: "update MockServer docker image"
     command: "docker pull jamesdbloom/mockserver:latest"
 
   - wait
 
+  - label: "update wrk2 docker image"
+    command: "docker pull jamesdbloom/mockserver:wrk2"
+
+  - wait
+
   - label: "performance test"
-    command: "./scripts/local_quick_build.sh"
+    command: "docker-compose up"
