@@ -11,7 +11,7 @@ function runCommand {
 }
 
 echo "+++ start docker"
-runCommand "docker run --name mockserver jamesdbloom/mockserver:latest /opt/mockserver/run_mockserver.sh -logLevel INFO -serverPort 1080"
+runCommand "docker run -d -p 1080:1080 --name mockserver jamesdbloom/mockserver:latest /opt/mockserver/run_mockserver.sh -logLevel INFO -serverPort 1080"
 
 echo "+++ JVM warm up"
 runCommand "wrk --latency -c 5 -t 5 -d 10s http://localhost:1080/simple"
