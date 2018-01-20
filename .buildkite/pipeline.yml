@@ -1,0 +1,8 @@
+steps:
+  - label: "update docker image"
+    command: "docker pull jamesdbloom/mockserver:latest"
+
+  - wait
+
+  - label: "performance test"
+    command: "./scripts/local_quick_build.sh"
