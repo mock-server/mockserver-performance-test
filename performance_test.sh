@@ -54,18 +54,10 @@ curl -v -s -X PUT http://$MOCKSERVER_HOST/expectation -d '[
 ]'
 
 echo "+++ JVM warm up"
-runCommand "locust --loglevel=INFO --no-web --only-summary --csv=10c_noTLS -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=ERROR --no-web --only-summary -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
 
 echo "+++ HTTP"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c 1 -r 1 -n 10 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=10c_noTLS -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=100c_noTLS -c 100 -r 100 -n 1000 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 200 -r 200 -n 20000 --host=http://$MOCKSERVER_HOST"
-
-echo "+++ HTTPS"
-runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_TLS -c 1 -r 1 -n 10 --host=http://$MOCKSERVER_HOST"
-runCommand "locust --loglevel=INFO --no-web --only-summary --csv=10c_TLS -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
-runCommand "locust --loglevel=INFO --no-web --only-summary --csv=100c_TLS -c 100 -r 100 -n 1000 --host=http://$MOCKSERVER_HOST"
-runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_TLS -c 200 -r 200 -n 20000 --host=http://$MOCKSERVER_HOST"
-
-

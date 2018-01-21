@@ -4,8 +4,8 @@ steps:
 
   - wait
 
-  - label: "update wrk2 docker image"
-    command: "docker pull jamesdbloom/mockserver:wrk2"
+  - label: "update performance docker image"
+    command: "docker pull jamesdbloom/mockserver:performance"
 
   - wait
 
