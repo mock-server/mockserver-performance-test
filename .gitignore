@@ -23,7 +23,7 @@ mods
 *.log
 *.sql
 *.sqlite
-test.csv
+*.csv
 
 # OS generated files #
 ######################

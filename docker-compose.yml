@@ -11,6 +11,9 @@ services:
     image: jamesdbloom/mockserver:performance
     volumes:
     - "./performance_test.sh:/performance_test.sh"
+    - "./locustfile.py:/locustfile.py"
+    ports:
+    - 8089:8089
     depends_on:
     - mockserver
     links:
