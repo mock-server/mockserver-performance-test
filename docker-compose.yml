@@ -8,7 +8,7 @@ services:
       LOG_LEVEL: "WARN"
 
   performance:
-    image: jamesdbloom/mockserver:wrk2
+    image: jamesdbloom/mockserver:performance
     volumes:
     - "./performance_test.sh:/performance_test.sh"
     depends_on:
