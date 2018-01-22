@@ -10,4 +10,4 @@ steps:
   - wait
 
   - label: "performance test"
-    command: "docker-compose up"
+    command: "docker-compose up --abort-on-container-exit"

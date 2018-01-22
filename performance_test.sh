@@ -6,12 +6,16 @@ function runCommand {
     echo
     echo "$1"
     echo
-    sleep 2
+    sleep 1
     eval $1
     echo
 }
+function finish {
+    runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/stop"
+}
+trap finish SIGINT SIGTERM SIGKILL SIGQUIT EXIT
 
-sleep 2
+sleep 5
 echo "+++ Create Expectation"
 curl -v -s -X PUT http://$MOCKSERVER_HOST/expectation -d '[
     {
