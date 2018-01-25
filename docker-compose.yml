@@ -3,7 +3,7 @@ version: '3'
 
 services:
   mockserver:
-    image: jamesdbloom/mockserver:latest
+    image: jamesdbloom/mockserver:mockserver-snapshot
     environment:
       LOG_LEVEL: "WARN"
 
