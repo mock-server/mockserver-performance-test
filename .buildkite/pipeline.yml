@@ -1,6 +1,6 @@
 steps:
   - label: "update MockServer docker image"
-    command: "docker pull jamesdbloom/mockserver:latest"
+    command: "docker pull jamesdbloom/mockserver:mockserver-snapshot"
 
   - wait
 
