@@ -6,7 +6,7 @@ function runCommand {
     echo
     echo "$1"
     echo
-    sleep 1
+    sleep 5
     eval $1
     echo
 }
@@ -65,3 +65,8 @@ runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c 1 -
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=10c_noTLS -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=100c_noTLS -c 100 -r 100 -n 1000 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 200 -r 200 -n 20000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 250 -r 250 -n 25000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 300 -r 300 -n 30000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 350 -r 350 -n 35000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 400 -r 400 -n 40000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 450 -r 450 -n 45000 --host=http://$MOCKSERVER_HOST"
