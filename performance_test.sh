@@ -61,7 +61,7 @@ echo "+++ JVM warm up"
 runCommand "locust --loglevel=ERROR --no-web --only-summary -c 10 -r 10 -n 100 --host=http://$MOCKSERVER_HOST"
 
 echo "+++ HTTP"
-for count in 10 100 200 300 400 500 600 700 800 900 1100 1200 1300 1400 1500 2000 2500 3000 3500 4000 4500 5000 5500 6000 6500
+for count in 10 100 200 300 400 500 600 700 800 900 1100 1200 1300 1400 1500
 do
     runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r $count -n $(($count*60)) --host=http://$MOCKSERVER_HOST"
 done
