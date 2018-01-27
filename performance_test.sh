@@ -78,3 +78,7 @@ runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 7
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 750 -r 750 -n 75000 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 800 -r 800 -n 80000 --host=http://$MOCKSERVER_HOST"
 runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 850 -r 850 -n 85000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 900 -r 900 -n 90000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 950 -r 950 -n 95000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 1000 -r 1000 -n 100000 --host=http://$MOCKSERVER_HOST"
+runCommand "locust --loglevel=INFO --no-web --only-summary --csv=200c_noTLS -c 1050 -r 1050 -n 105000 --host=http://$MOCKSERVER_HOST"
