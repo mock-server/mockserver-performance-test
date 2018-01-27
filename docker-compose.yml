@@ -5,7 +5,8 @@ services:
   mockserver:
     image: jamesdbloom/mockserver:mockserver-snapshot
     environment:
-      LOG_LEVEL: "WARN"
+     LOG_LEVEL: "WARN"
+     GENERIC_JVM_OPTIONS: "-Dmockserver.nioEventLoopThreadCount=100"
 
   performance:
     image: jamesdbloom/mockserver:performance
