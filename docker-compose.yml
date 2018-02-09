@@ -7,6 +7,8 @@ services:
     environment:
      LOG_LEVEL: "WARN"
      GENERIC_JVM_OPTIONS: "-Dmockserver.nioEventLoopThreadCount=100"
+    ports:
+    - 1080:1080
 
   performance:
     image: jamesdbloom/mockserver:performance
