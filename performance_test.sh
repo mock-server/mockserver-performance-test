@@ -79,11 +79,11 @@ runCommand "locust --loglevel=ERROR --no-web --only-summary -c 6000 -r 10 -t 60 
 echo "+++ HTTP"
 for count in 10 100 200 300 400 500 600 700 800 900 1000 1100 1200 1250
 do
-    runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r 15 -t 120 --host=http://$MOCKSERVER_HOST"
+    runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r 15 -t 180 --host=http://$MOCKSERVER_HOST"
 done
 
 echo "+++ HTTPS"
 for count in 10 100 200 300 400 500 600 700 800 900 1000 1100 1200 1250
 do
-    runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r 15 -t 120 --host=https://$MOCKSERVER_HOST"
+    runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r 15 -t 180 --host=https://$MOCKSERVER_HOST"
 done
