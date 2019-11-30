@@ -3,14 +3,14 @@ version: '3'
 
 services:
   mockserver:
-    image: jamesdbloom/mockserver:mockserver-snapshot
+    image: mockserver/mockserver:mockserver-snapshot
     environment:
      LOG_LEVEL: "OFF"
     ports:
     - 1080:1080
 
   performance:
-    image: jamesdbloom/mockserver:performance
+    image: mockserver/mockserver:performance
     volumes:
     - "./performance_test.sh:/performance_test.sh"
     - "./locustfile.py:/locustfile.py"
