@@ -1,11 +1,7 @@
-from locust import HttpLocust, TaskSet, task, between
+from locust import TaskSet, task, between
 import locust.stats
 locust.stats.CONSOLE_STATS_INTERVAL_SEC = 60
-import requests
-from urllib3.exceptions import InsecureRequestWarning
-
-# Suppress only the single warning from urllib3 needed.
-requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+from locust.contrib.fasthttp import FastHttpLocust
 
 class UserBehavior(TaskSet):
     @task
@@ -16,7 +12,6 @@ class UserBehavior(TaskSet):
     # def forward(self):
     #     self.client.get("/forward")
 
-
-class WebsiteUser(HttpLocust):
+class WebsiteUser(FastHttpLocust):
     task_set = UserBehavior
-    wait_time = between(1000, 1000)
+    wait_time = between(1, 1)
