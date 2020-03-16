@@ -1,19 +1,19 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # set -e
 
-function runCommand {
+runCommand() {
     echo
     echo "$1"
     echo
     sleep 3
-    eval $1
+    eval "$1"
     echo
 }
-function finish {
+finish() {
     runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/stop"
 }
-trap finish SIGINT SIGTERM SIGKILL SIGQUIT EXIT
+trap finish INT TERM QUIT EXIT
 
 sleep 5
 echo "+++ Create Expectation"
