@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # export JAVA_HOME=`/usr/libexec/java_home -v 12`
-# java -XX:+UnlockExperimentalVMOptions -XX:+AlwaysPreTouch -Xms8192m -Xmx8192m -XX:-UseBiasedLocking -XX:+DisableExplicitGC -Dmockserver.logLevel=ERROR -Dmockserver.disableSystemOut=true -Dmockserver.nioEventLoopThreadCount=500 -jar ~/.m2/repository/org/mock-server/mockserver-netty/5.8.2-SNAPSHOT/mockserver-netty-5.8.2-SNAPSHOT-jar-with-dependencies.jar -serverPort 1080
 
 ulimit -S -n 49152
 
@@ -10,7 +9,8 @@ do
   java -Dmockserver.logLevel=INFO \
     -Dmockserver.disableSystemOut=true \
     -Dmockserver.maxExpectations=$count \
+    -Dmockserver.outputMemoryUsageCsv=true \
     -jar ~/.m2/repository/org/mock-server/mockserver-netty/5.10.1-SNAPSHOT/mockserver-netty-5.10.1-SNAPSHOT-jar-with-dependencies.jar \
     -serverPort 1080 &
-  ./performance_test_short.sh
+  MOCKSERVER_HOST=localhost:1080 ./performance_test_short.sh
 done
