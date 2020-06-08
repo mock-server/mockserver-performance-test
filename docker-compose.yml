@@ -5,7 +5,8 @@ services:
   mockserver:
     image: mockserver/mockserver:mockserver-snapshot
     environment:
-     LOG_LEVEL: "OFF"
+      MOCKSERVER_LOG_LEVEL: "ERROR"
+      MOCKSERVER_DISABLE_SYSTEM_OUT: "true"
     ports:
     - 1080:1080
 
