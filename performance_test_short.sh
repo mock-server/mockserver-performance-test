@@ -2,28 +2,23 @@
 
 # set -e
 
+ulimit -S -n 49152
+
 runCommand() {
     echo
     echo "$1"
     echo
-    sleep 3
+    sleep 5
     eval "$1"
     echo
 }
 finish() {
-    runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/status"
-    runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/reset"
-    sleep 30
-    runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/status"
-    runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/stop"
+    runCommand "curl -v -s -X PUT http://127.0.0.1:1080/reset"
 }
 trap finish INT TERM QUIT EXIT
 
-echo "+++ Record Empty Memory"
-runCommand "curl -v -s -X PUT http://$MOCKSERVER_HOST/status"
-
 echo "+++ Create Expectation"
-curl -v -s -X PUT http://$MOCKSERVER_HOST/expectation -d '[
+curl -v -s -X PUT http://127.0.0.1:1080/expectation -d '[
     {
         "httpRequest": {
             "path": "/not_simple"
@@ -79,11 +74,9 @@ curl -v -s -X PUT http://$MOCKSERVER_HOST/expectation -d '[
     }
 ]'
 
-echo "+++ JVM warm up"
-runCommand "locust --loglevel=ERROR --no-web --only-summary -c 6000 -r 10 -t 60 --host=http://$MOCKSERVER_HOST"
-
 echo "+++ HTTP"
-for count in 6000 6000 6000 6000
+for count in 10 100 150 200 300 400 500 600 700 800
 do
-    runCommand "locust --loglevel=INFO --no-web --only-summary --csv=1c_noTLS -c $count -r 15 -t 45 --host=http://$MOCKSERVER_HOST"
+    runCommand "locust --loglevel=INFO --headless --only-summary --csv=$count -u $count -r 15 -t 10 --host=http://127.0.0.1:1080"
+    runCommand "curl -v -k -X PUT http://localhost:1080/reset"
 done
