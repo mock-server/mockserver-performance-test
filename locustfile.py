@@ -22,7 +22,7 @@ class UserBehavior(FastHttpUser):
                         "        \"body\": \"some simple response\"\n"
                         "    },\n"
                         "    \"times\": {\n"
-                        "        \"remainingTimes\": 1\n"
+                        "        \"remainingTimes\": 5\n"
                         "    }\n"
                         "}]",
                         verify=False,
