@@ -1,5 +1,6 @@
 import locust.stats
 from locust import task, between
+from locust.contrib import fasthttp
 
 locust.stats.CONSOLE_STATS_INTERVAL_SEC = 60
 # https://docs.locust.io/en/stable/increase-performance.html
@@ -10,7 +11,7 @@ class UserBehavior(FastHttpUser):
     wait_time = between(1, 1)
 
     @task
-    def expectation_and_request(self):
+    def expectation(self):
         self.client.put("/mockserver/expectation",
                         "[{\n"
                         "    \"httpRequest\": {\n"
@@ -24,8 +25,19 @@ class UserBehavior(FastHttpUser):
                         "        \"remainingTimes\": 1\n"
                         "    }\n"
                         "}]",
-                        verify=False)
-        self.client.get("/simple", verify=False)
+                        verify=False,
+                        headers={
+                            "Connection": "Keep-Alive",
+                            "Keep-Alive": "timeout=120, max=1000"
+                        })
+
+    @task
+    def request(self):
+        self.client.get("/simple", verify=False,
+                        headers={
+                            "Connection": "Keep-Alive",
+                            "Keep-Alive": "timeout=120, max=1000"
+                        })
 
     # @task
     # def forward(self):
