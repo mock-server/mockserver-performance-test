@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
+# ./standalone_performance_test_snapshot.sh 2>&1 > standalone_performance_test_snapshot.log
+
 export JAVA_HOME=`/usr/libexec/java_home -v 13`
 
 ulimit -S -n 49152
 
-for maxExpectations in 100 500 1000 # 2500 5000 7500 10000 15000 20000 25000 30000 35000 40000 45000 50000
+curl -v -k -X PUT http://localhost:1080/mockserver/stop || true
+sleep 2
+
+for maxExpectations in 100 500 1000 2500 # 5000 7500 10000 15000 20000 25000 30000 35000 40000 45000 50000
 do
-  curl -v -k -X PUT http://localhost:1080/mockserver/stop || true
-  sleep 2
-  java -Xmx8g -Dmockserver.logLevel=WARN \
+  java -Xmx1g -Dmockserver.logLevel=WARN \
     -Dmockserver.disableSystemOut=true \
     -Dmockserver.maxExpectations=$maxExpectations \
     -Dmockserver.outputMemoryUsageCsv=false \
@@ -71,9 +74,9 @@ do
           }
       }
   ]'
-  for count in 10 100 150 200 # 300 400 500 600 700 800
+  for count in 10 100 150 200 300 400 500 600 700 800
   do
-      locust --loglevel=DEBUG --headless --only-summary --csv="${maxExpectations}_${count}" -u $count -r 15 -t 10 --host=http://127.0.0.1:1080
+      locust --loglevel=DEBUG --headless --only-summary --csv="${maxExpectations}_${count}_snapshot" -u $count -r 15 -t 10 --host=http://127.0.0.1:1080 2>&1
       curl -v -k -X PUT http://localhost:1080/mockserver/reset
   done
   curl -v -k -X PUT http://localhost:1080/mockserver/stop || true
