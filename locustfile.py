@@ -1,6 +1,5 @@
 import locust.stats
 from locust import task, between
-from locust.contrib import fasthttp
 
 locust.stats.CONSOLE_STATS_INTERVAL_SEC = 60
 # https://docs.locust.io/en/stable/increase-performance.html
@@ -33,7 +32,8 @@ class UserBehavior(FastHttpUser):
 
     @task
     def request(self):
-        self.client.get("/simple", verify=False,
+        self.client.get("/simple",
+                        verify=False,
                         headers={
                             "Connection": "Keep-Alive",
                             "Keep-Alive": "timeout=120, max=1000"

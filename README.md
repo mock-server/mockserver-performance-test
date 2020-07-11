@@ -23,6 +23,13 @@ locust --loglevel=DEBUG --headless --only-summary -u 600 -r 15 -t 180 --host=htt
 
 # Apache Benchmark
 
+```bash
+java -Xmx500m -Dmockserver.logLevel=WARN \
+-Dmockserver.disableSystemOut=true \
+-jar ~/.m2/repository/org/mock-server/mockserver-netty/5.11.1-SNAPSHOT/mockserver-netty-5.11.1-SNAPSHOT-jar-with-dependencies.jar \
+-serverPort 1080 &
+```
+
 Apache Benchmark doesn't open a separate connection for each user so produces much faster performances
 
 # create expectations
@@ -223,26 +230,26 @@ Server Hostname:        127.0.0.1
 Server Port:            1080
 
 Document Path:          /simple
-Document Length:        20 bytes
+Document Length:        8 bytes
 
 Concurrency Level:      10
-Time taken for tests:   3.060 seconds
+Time taken for tests:   1.319 seconds
 Complete requests:      100000
 Failed requests:        0
 Keep-Alive requests:    100000
-Total transferred:      8300000 bytes
-HTML transferred:       2000000 bytes
-Requests per second:    32674.76 [#/sec] (mean)
-Time per request:       0.306 [ms] (mean)
-Time per request:       0.031 [ms] (mean, across all concurrent requests)
-Transfer rate:          2648.44 [Kbytes/sec] received
+Total transferred:      11100000 bytes
+HTML transferred:       800000 bytes
+Requests per second:    75797.43 [#/sec] (mean)
+Time per request:       0.132 [ms] (mean)
+Time per request:       0.013 [ms] (mean, across all concurrent requests)
+Transfer rate:          8216.32 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.0      0       0
-Processing:     0    0   0.5      0      18
-Waiting:        0    0   0.5      0      18
-Total:          0    0   0.5      0      18
+Connect:        0    0   0.0      0       1
+Processing:     0    0   0.1      0       4
+Waiting:        0    0   0.1      0       4
+Total:          0    0   0.1      0       4
 
 Percentage of the requests served within a certain time (ms)
   50%      0
@@ -251,7 +258,203 @@ Percentage of the requests served within a certain time (ms)
   80%      0
   90%      0
   95%      0
-  98%      1
-  99%      1
- 100%     18 (longest request)
+  98%      0
+  99%      0
+ 100%      4 (longest request)
 ```
+
+```bash
+ab -k -n 100000 -c 100 http://127.0.0.1:1080/simple
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 10000 requests
+Completed 20000 requests
+Completed 30000 requests
+Completed 40000 requests
+Completed 50000 requests
+Completed 60000 requests
+Completed 70000 requests
+Completed 80000 requests
+Completed 90000 requests
+Completed 100000 requests
+Finished 100000 requests
+
+
+Server Software:        
+Server Hostname:        127.0.0.1
+Server Port:            1080
+
+Document Path:          /simple
+Document Length:        8 bytes
+
+Concurrency Level:      100
+Time taken for tests:   1.077 seconds
+Complete requests:      100000
+Failed requests:        0
+Keep-Alive requests:    100000
+Total transferred:      11100000 bytes
+HTML transferred:       800000 bytes
+Requests per second:    92864.82 [#/sec] (mean)
+Time per request:       1.077 [ms] (mean)
+Time per request:       0.011 [ms] (mean, across all concurrent requests)
+Transfer rate:          10066.40 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       6
+Processing:     0    1   0.4      1       6
+Waiting:        0    1   0.4      1       6
+Total:          0    1   0.4      1       8
+
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      1
+  80%      1
+  90%      1
+  95%      2
+  98%      2
+  99%      2
+ 100%      8 (longest request)
+```
+
+```bash
+ab -k -n 100000 -c 250 http://127.0.0.1:1080/simple
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 10000 requests
+Completed 20000 requests
+Completed 30000 requests
+Completed 40000 requests
+Completed 50000 requests
+Completed 60000 requests
+Completed 70000 requests
+Completed 80000 requests
+Completed 90000 requests
+Completed 100000 requests
+Finished 100000 requests
+
+
+Server Software:        
+Server Hostname:        127.0.0.1
+Server Port:            1080
+
+Document Path:          /simple
+Document Length:        8 bytes
+
+Concurrency Level:      250
+Time taken for tests:   0.991 seconds
+Complete requests:      100000
+Failed requests:        0
+Keep-Alive requests:    100000
+Total transferred:      11100000 bytes
+HTML transferred:       800000 bytes
+Requests per second:    100876.72 [#/sec] (mean)
+Time per request:       2.478 [ms] (mean)
+Time per request:       0.010 [ms] (mean, across all concurrent requests)
+Transfer rate:          10934.88 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.6      0      17
+Processing:     0    2   0.8      2      17
+Waiting:        0    2   0.8      2       6
+Total:          0    2   1.0      2      21
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      3
+  75%      3
+  80%      3
+  90%      4
+  95%      4
+  98%      4
+  99%      5
+ 100%     21 (longest request)
+```
+
+```bash
+ab -k -n 1000000 -c 500 http://127.0.0.1:1080/simple
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 100000 requests
+Completed 200000 requests
+Completed 300000 requests
+Completed 400000 requests
+Completed 500000 requests
+Completed 600000 requests
+Completed 700000 requests
+Completed 800000 requests
+Completed 900000 requests
+Completed 1000000 requests
+Finished 1000000 requests
+
+
+Server Software:        
+Server Hostname:        127.0.0.1
+Server Port:            1080
+
+Document Path:          /simple
+Document Length:        8 bytes
+
+Concurrency Level:      500
+Time taken for tests:   10.610 seconds
+Complete requests:      1000000
+Failed requests:        0
+Keep-Alive requests:    1000000
+Total transferred:      111000000 bytes
+HTML transferred:       8000000 bytes
+Requests per second:    94250.15 [#/sec] (mean)
+Time per request:       5.305 [ms] (mean)
+Time per request:       0.011 [ms] (mean, across all concurrent requests)
+Transfer rate:          10216.57 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.9      0      62
+Processing:     0    5   2.5      5      74
+Waiting:        0    5   2.5      5      74
+Total:          0    5   2.6      5      74
+
+Percentage of the requests served within a certain time (ms)
+  50%      5
+  66%      5
+  75%      6
+  80%      6
+  90%      7
+  95%      7
+  98%      8
+  99%      9
+ 100%     74 (longest request)
+```
+
+# Compare AB to Locust
+
+curl -v -k -X PUT https://localhost:1080/mockserver/expectation -H "Content-Type: application/json; charset=utf-8" --data '{
+    "httpRequest": {
+        "method": "GET",
+        "path": "/simple"
+    },
+    "httpResponse": {
+        "body": {
+                "type": "STRING",
+                "string": "سلام",
+            "contentType": "text/plain; charset=utf-8"
+         }
+    },
+    "times": {
+        "unlimited": true
+    }
+}'
+
+locust --loglevel=DEBUG --headless --only-summary -u 600 -r 15 -t 180 --host=http://127.0.0.1:1080
+ab -k -n 100000 -c 600 http://127.0.0.1:1080/simple
