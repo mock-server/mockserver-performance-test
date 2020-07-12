@@ -25,6 +25,7 @@ mods
 *.sql
 *.sqlite
 *.csv
+*.xlsx
 
 # OS generated files #
 ######################
