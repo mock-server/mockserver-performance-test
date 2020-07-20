@@ -437,17 +437,36 @@ Percentage of the requests served within a certain time (ms)
  100%     74 (longest request)
 ```
 
-# Compare AB to Locust
+# AB Complex Expectation Test
+
+java -Xmx500m -Dmockserver.logLevel=WARN \
+-Dmockserver.disableSystemOut=true \
+-jar ~/.m2/repository/org/mock-server/mockserver-netty/5.11.1-SNAPSHOT/mockserver-netty-5.11.1-SNAPSHOT-jar-with-dependencies.jar \
+-serverPort 1080 &
 
 curl -v -k -X PUT https://localhost:1080/mockserver/expectation -H "Content-Type: application/json; charset=utf-8" --data '{
     "httpRequest": {
         "method": "GET",
-        "path": "/simple"
+        "path": "/simple",
+        "headers": {
+            "one": ["one"],
+            "two": ["two"],
+            "three": ["three"],
+            "four": ["four"],
+            "five": ["five"]
+        },
+        "queryStringParameters": {
+            "one": ["one"],
+            "two": ["two"],
+            "three": ["three"],
+            "four": ["four"],
+            "five": ["five"]
+        }
     },
     "httpResponse": {
         "body": {
-                "type": "STRING",
-                "string": "سلام",
+            "type": "STRING",
+            "string": "سلام",
             "contentType": "text/plain; charset=utf-8"
          }
     },
@@ -456,5 +475,5 @@ curl -v -k -X PUT https://localhost:1080/mockserver/expectation -H "Content-Type
     }
 }'
 
-locust --loglevel=DEBUG --headless --only-summary -u 600 -r 15 -t 180 --host=http://127.0.0.1:1080
-ab -k -n 100000 -c 600 http://127.0.0.1:1080/simple
+ab -k -n 100 -c 10 -H "one:one" -H "two:two" -H "three:three" -H "four:four" -H "five:five" http://127.0.0.1:1080/simple?one=one&two=two&three=three&four=four&five=five
+
